@@ -35,7 +35,9 @@ public:
 #define BIN 2
 
     // TODO: move these from being inlined
-    void begin(int baud) {}
+    void begin(int baud) {
+        (void) baud; // Silence unused parameter warnings
+    }
 
     size_t println(const char* s)
     {

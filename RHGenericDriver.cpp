@@ -29,7 +29,7 @@ bool RHGenericDriver::init()
 void RHGenericDriver::waitAvailable()
 {
     while (!available())
-	YIELD;
+        YIELD;
 }
 
 // Blocks until a valid message is received or timeout expires
@@ -41,10 +41,10 @@ bool RHGenericDriver::waitAvailableTimeout(uint16_t timeout)
     while ((millis() - starttime) < timeout)
     {
         if (available())
-	{
+        {
            return true;
-	}
-	YIELD;
+        }
+        YIELD;
     }
     return false;
 }
@@ -52,7 +52,7 @@ bool RHGenericDriver::waitAvailableTimeout(uint16_t timeout)
 bool RHGenericDriver::waitPacketSent()
 {
     while (_mode == RHModeTx)
-	YIELD; // Wait for any previous transmit to finish
+        YIELD; // Wait for any previous transmit to finish
     return true;
 }
 
@@ -63,7 +63,7 @@ bool RHGenericDriver::waitPacketSent(uint16_t timeout)
     {
         if (_mode != RHModeTx) // Any previous transmit finished?
            return true;
-	YIELD;
+        YIELD;
     }
     return false;
 }
@@ -82,7 +82,7 @@ bool RHGenericDriver::waitCAD()
     unsigned long t = millis();
     while (isChannelActive())
     {
-         if (millis() - t > _cad_timeout) 
+         if (millis() - t > _cad_timeout)
 	     return false;
          delay(random(1, 10) * 100); // Should these values be configurable? Macros?
     }
@@ -101,17 +101,17 @@ void RHGenericDriver::setPromiscuous(bool promiscuous)
     _promiscuous = promiscuous;
 }
 
-void RHGenericDriver::setThisAddress(uint8_t address)
+void RHGenericDriver::setThisAddress(rh_address_t address)
 {
     _thisAddress = address;
 }
 
-void RHGenericDriver::setHeaderTo(uint8_t to)
+void RHGenericDriver::setHeaderTo(rh_address_t to)
 {
     _txHeaderTo = to;
 }
 
-void RHGenericDriver::setHeaderFrom(uint8_t from)
+void RHGenericDriver::setHeaderFrom(rh_address_t from)
 {
     _txHeaderFrom = from;
 }
@@ -127,12 +127,12 @@ void RHGenericDriver::setHeaderFlags(uint8_t set, uint8_t clear)
     _txHeaderFlags |= set;
 }
 
-uint8_t RHGenericDriver::headerTo()
+rh_address_t RHGenericDriver::headerTo()
 {
     return _rxHeaderTo;
 }
 
-uint8_t RHGenericDriver::headerFrom()
+rh_address_t RHGenericDriver::headerFrom()
 {
     return _rxHeaderFrom;
 }
@@ -176,13 +176,13 @@ void RHGenericDriver::printBuffer(const char* prompt, const uint8_t* buf, uint8_
     Serial.println(prompt);
     for (i = 0; i < len; i++)
     {
-	if (i % 16 == 15)
-	    Serial.println(buf[i], HEX);
-	else
-	{
-	    Serial.print(buf[i], HEX);
-	    Serial.print(' ');
-	}
+        if (i % 16 == 15)
+            Serial.println(buf[i], HEX);
+        else
+        {
+            Serial.print(buf[i], HEX);
+            Serial.print(' ');
+        }
     }
     Serial.println("");
 #endif

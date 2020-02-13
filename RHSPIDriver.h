@@ -14,14 +14,14 @@
 
 #if (RH_PLATFORM == RH_PLATFORM_RASPI)
 #define RPI_CE0_CE1_FIX { \
-          if (_slaveSelectPin!=7) {   \
-            bcm2835_gpio_fsel(7,BCM2835_GPIO_FSEL_OUTP); \
-            bcm2835_gpio_write(7,HIGH); \
-          }                           \
-          if (_slaveSelectPin!=8) {   \
-            bcm2835_gpio_fsel(8,BCM2835_GPIO_FSEL_OUTP); \
-            bcm2835_gpio_write(8,HIGH); \
-          }                           \
+            if (_slaveSelectPin!=7) {   \
+                bcm2835_gpio_fsel(7,BCM2835_GPIO_FSEL_OUTP); \
+                bcm2835_gpio_write(7,HIGH); \
+            }                           \
+            if (_slaveSelectPin!=8) {   \
+                bcm2835_gpio_fsel(8,BCM2835_GPIO_FSEL_OUTP); \
+                bcm2835_gpio_write(8,HIGH); \
+            }                               \
         }
 #else
 #define RPI_CE0_CE1_FIX {}
@@ -40,16 +40,16 @@ class RHGenericSPI;
 /// of the bitbanged RHSoftwareSPI class. The default behaviour is to use a pre-instantiated built-in RHHardwareSPI
 /// interface.
 ///
-/// SPI bus access is protected by ATOMIC_BLOCK_START and ATOMIC_BLOCK_END, which will ensure interrupts 
+/// SPI bus access is protected by ATOMIC_BLOCK_START and ATOMIC_BLOCK_END, which will ensure interrupts
 /// are disabled during access.
-/// 
+///
 /// The read and write routines implement commonly used SPI conventions: specifically that the MSB
 /// of the first byte transmitted indicates that it is a write and the remaining bits indicate the rehgister to access)
-/// This can be overriden 
-/// in subclasses if necessaryor an alternative class, RHNRFSPIDriver can be used to access devices like 
+/// This can be overriden
+/// in subclasses if necessaryor an alternative class, RHNRFSPIDriver can be used to access devices like
 /// Nordic NRF series radios, which have different requirements.
 ///
-/// Application developers are not expected to instantiate this class directly: 
+/// Application developers are not expected to instantiate this class directly:
 /// it is for the use of Driver developers.
 class RHSPIDriver : public RHGenericDriver
 {

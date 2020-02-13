@@ -6,7 +6,7 @@
 #include <RHSPIDriver.h>
 
 RHSPIDriver::RHSPIDriver(uint8_t slaveSelectPin, RHGenericSPI& spi)
-    : 
+    :
     _spi(spi),
     _slaveSelectPin(slaveSelectPin)
 {
@@ -61,7 +61,7 @@ uint8_t RHSPIDriver::spiBurstRead(uint8_t reg, uint8_t* dest, uint8_t len)
     digitalWrite(_slaveSelectPin, LOW);
     status = _spi.transfer(reg & ~RH_SPI_WRITE_MASK); // Send the start address with the write mask off
     while (len--)
-	*dest++ = _spi.transfer(0);
+        *dest++ = _spi.transfer(0);
     digitalWrite(_slaveSelectPin, HIGH);
     ATOMIC_BLOCK_END;
     return status;
@@ -75,7 +75,7 @@ uint8_t RHSPIDriver::spiBurstWrite(uint8_t reg, const uint8_t* src, uint8_t len)
     digitalWrite(_slaveSelectPin, LOW);
     status = _spi.transfer(reg | RH_SPI_WRITE_MASK); // Send the start address with the write mask on
     while (len--)
-	_spi.transfer(*src++);
+        _spi.transfer(*src++);
     digitalWrite(_slaveSelectPin, HIGH);
     ATOMIC_BLOCK_END;
     return status;
@@ -85,4 +85,3 @@ void RHSPIDriver::setSlaveSelectPin(uint8_t slaveSelectPin)
 {
     _slaveSelectPin = slaveSelectPin;
 }
- 
