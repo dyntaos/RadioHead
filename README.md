@@ -1,7 +1,7 @@
 RadioHead Packet Radio library for embedded microprocessors
 ===========================================================
 
-##Purpose of this fork
+## Purpose of this fork
 
 This fork intends to:
 - Make it easy to increase/decrease the size of the fields in the header of RadioHead packets, including:
@@ -11,7 +11,7 @@ This fork intends to:
 - Implement fixes for issues (since as of the time of writing this, hallard's repo has not been updated in 3 years)
 
 
-###Current state of this fork
+### Current state of this fork
 
 This fork is a <u>presently</u> unchanged from hallard's version.
 
@@ -19,7 +19,7 @@ This fork is a <u>presently</u> unchanged from hallard's version.
 **Readme below is the same as hallard's at the time of forking**
 
 
-###Version 1.67
+### Version 1.67
 
 This is a fork of the original RadioHead Packet Radio library for embedded microprocessors. It provides a complete object-oriented library for sending and receiving packetized messages via a variety of common data radios and other transports on a range of embedded microprocessors.
 
