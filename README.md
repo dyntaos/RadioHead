@@ -13,7 +13,8 @@ This fork intends to:
 
 ### Current state of this fork
 
-This fork is a <u>presently</u> unchanged from hallard's version.
+Of the goals listed above, the only the RF95 LoRa module currently supports altering the size of header fields, and the other modules will not work due to changes to inherited classes. These are planned future changes.
+
 
 
 **Readme below is the same as hallard's at the time of forking**
