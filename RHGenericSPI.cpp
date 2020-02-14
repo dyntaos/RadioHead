@@ -21,7 +21,7 @@ void RHGenericSPI::setBitOrder(BitOrder bitOrder)
 
 void RHGenericSPI::setDataMode(DataMode dataMode)
 {
-    _dataMode = dataMode; 
+    _dataMode = dataMode;
 }
 
 void RHGenericSPI::setFrequency(Frequency frequency)
