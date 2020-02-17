@@ -219,7 +219,7 @@ void RH_RF95::validateRxBuf()
     _rxHeaderId       = ntoh_id( ( (rh_id_t*) _bufPtr)[0] );
     _bufPtr          += RH_ID_SIZE;
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
     _rxHeaderFragment = ntoh_fragment( ( (rh_fragment_t*) _bufPtr)[0] );
     _bufPtr          += RH_FRAGMENT_SIZE;
 #endif
@@ -311,7 +311,7 @@ bool RH_RF95::send(const uint8_t* data, uint8_t len)
     rh_id_t        sendId;
 #endif
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
 #if RH_FRAGMENT_SIZE != 1
     rh_fragment_t  sendFragment;
 #endif
@@ -351,7 +351,7 @@ bool RH_RF95::send(const uint8_t* data, uint8_t len)
     spiBurstWrite(RH_RF95_REG_00_FIFO, (uint8_t*) &sendId, RH_ID_SIZE);
 #endif
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
 #if RH_FRAGMENT_SIZE == 1
     spiWrite(RH_RF95_REG_00_FIFO, (uint8_t) _txHeaderFragment);
 #else

@@ -39,7 +39,7 @@
 
 // The length of the headers we add.
 // The headers are inside the LORA's payload
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
 #define RH_RF95_HEADER_LEN (RH_ID_SIZE + (RH_ADDRESS_SIZE * 2) + RH_FLAGS_SIZE + RH_FRAGMENT_SIZE)
 #else
 #define RH_RF95_HEADER_LEN (RH_ID_SIZE + (RH_ADDRESS_SIZE * 2) + RH_FLAGS_SIZE)

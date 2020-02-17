@@ -1014,7 +1014,7 @@ typedef uint8_t  rh_id_t;
 #define RH_ID_SIZE                        1
 
 
-// The packet FRAGMENT field is only enabled when RH_FRAGMENT_FIELD is defined
+// The packet FRAGMENT field is disabbled when RH_NO_FRAGMENT_FIELD is defined
 typedef uint8_t  rh_fragment_t;
 // Cannot use sizeof(), as this value is used in an #if preprocessor statement below
 #define RH_FRAGMENT_SIZE                  1

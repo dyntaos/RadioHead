@@ -173,7 +173,7 @@ class RHGenericDriver
         /// \param[in] id The new ID header value
         virtual void         setHeaderId(rh_id_t id);
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
         /// Sets the packet FRAGMENT number header to be sent in all subsequent messages
         /// \param[in] fragment The new packet fragment header value
         virtual void         setHeaderFragment(rh_fragment_t fragment);
@@ -205,7 +205,7 @@ class RHGenericDriver
         /// \return The ID header
         virtual rh_id_t      headerId();
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
         /// Returns the packet FRAGMENT number header of the last received message
         /// \return The packet FRAGMENT number header
         virtual rh_fragment_t headerFragment();
@@ -280,7 +280,7 @@ class RHGenericDriver
         /// ID header in the last received mesasge
         volatile rh_id_t      _rxHeaderId;
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
         volatile rh_fragment_t _rxHeaderFragment;
 #endif
 
@@ -296,7 +296,7 @@ class RHGenericDriver
         /// ID header to send in all messages
         rh_id_t              _txHeaderId;
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
         rh_fragment_t        _txHeaderFragment;
 #endif
 

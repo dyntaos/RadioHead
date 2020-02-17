@@ -11,7 +11,7 @@ RHGenericDriver::RHGenericDriver()
     , _txHeaderTo(RH_BROADCAST_ADDRESS)
     , _txHeaderFrom(RH_BROADCAST_ADDRESS)
     , _txHeaderId(0)
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
     , _txHeaderFragment(0)
 #endif
     , _txHeaderFlags(0)
@@ -122,7 +122,7 @@ void RHGenericDriver::setHeaderId(rh_id_t id)
     _txHeaderId = id;
 }
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
 void RHGenericDriver::setHeaderFragment(rh_fragment_t fragment)
 {
     _txHeaderFragment = fragment;
@@ -150,7 +150,7 @@ rh_id_t RHGenericDriver::headerId()
     return _rxHeaderId;
 }
 
-#ifdef RH_FRAGMENT_FIELD
+#ifndef RH_NO_FRAGMENT_FIELD
 rh_fragment_t RHGenericDriver::headerFragment()
 {
     return _rxHeaderFragment;
