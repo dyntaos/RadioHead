@@ -212,14 +212,19 @@ void RH_RF95::validateRxBuf()
         return; // Too short to be a real message
 
     // Extract the 4 headers
-    _rxHeaderTo    = ntoh_address( ( (rh_address_t*) _buf)[0] );
-    _rxHeaderFrom  = ntoh_address( ( (rh_address_t*) _buf)[1] );
-    _bufPtr       += RH_ADDRESS_SIZE * 2;
+    _rxHeaderTo       = ntoh_address( ( (rh_address_t*) _buf)[0] );
+    _rxHeaderFrom     = ntoh_address( ( (rh_address_t*) _buf)[1] );
+    _bufPtr          += RH_ADDRESS_SIZE * 2;
 
-    _rxHeaderId    = ntoh_id( ( (rh_id_t*) _bufPtr)[0] );
-    _bufPtr       += RH_ID_SIZE;
+    _rxHeaderId       = ntoh_id( ( (rh_id_t*) _bufPtr)[0] );
+    _bufPtr          += RH_ID_SIZE;
 
-    _rxHeaderFlags = ntoh_flags( ( (rh_flags_t*) _bufPtr)[0] );
+#ifdef RH_FRAGMENT_FIELD
+    _rxHeaderFragment = ntoh_fragment( ( (rh_fragment_t*) _bufPtr)[0] );
+    _bufPtr          += RH_FRAGMENT_SIZE;
+#endif
+
+    _rxHeaderFlags    = ntoh_flags( ( (rh_flags_t*) _bufPtr)[0] );
 
     if (_promiscuous ||
         _rxHeaderTo == _thisAddress ||
@@ -300,13 +305,20 @@ bool RH_RF95::recv(uint8_t* buf, uint8_t* len)
 bool RH_RF95::send(const uint8_t* data, uint8_t len)
 {
 #if RH_ADDRESS_SIZE != 1
-    rh_address_t sendAddress;
+    rh_address_t   sendAddress;
 #endif
 #if RH_ID_SIZE != 1
-    rh_id_t      sendId;
+    rh_id_t        sendId;
 #endif
+
+#ifdef RH_FRAGMENT_FIELD
+#if RH_FRAGMENT_SIZE != 1
+    rh_fragment_t  sendFragment;
+#endif
+#endif
+
 #if RH_FLAGS_SIZE != 1
-    rh_flags_t   sendFlags;
+    rh_flags_t     sendFlags;
 #endif
 
     if (len > RH_RF95_MAX_MESSAGE_LEN)
@@ -337,6 +349,15 @@ bool RH_RF95::send(const uint8_t* data, uint8_t len)
 #else
     sendId = hton_id(_txHeaderId);
     spiBurstWrite(RH_RF95_REG_00_FIFO, (uint8_t*) &sendId, RH_ID_SIZE);
+#endif
+
+#ifdef RH_FRAGMENT_FIELD
+#if RH_FRAGMENT_SIZE == 1
+    spiWrite(RH_RF95_REG_00_FIFO, (uint8_t) _txHeaderFragment);
+#else
+    sendId = hton_fragment(_txHeaderFragment);
+    spiBurstWrite(RH_RF95_REG_00_FIFO, (uint8_t*) &sendFragment, RH_FRAGMENT_SIZE);
+#endif
 #endif
 
 #if RH_FLAGS_SIZE == 1

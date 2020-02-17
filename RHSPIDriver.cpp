@@ -6,11 +6,9 @@
 #include <RHSPIDriver.h>
 
 RHSPIDriver::RHSPIDriver(uint8_t slaveSelectPin, RHGenericSPI& spi)
-    :
-    _spi(spi),
-    _slaveSelectPin(slaveSelectPin)
-{
-}
+    : _spi(spi)
+    , _slaveSelectPin(slaveSelectPin)
+{}
 
 bool RHSPIDriver::init()
 {
