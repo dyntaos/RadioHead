@@ -6,19 +6,20 @@
 #include <RHGenericDriver.h>
 
 RHGenericDriver::RHGenericDriver()
-    :
-    _mode(RHModeInitialising),
-    _thisAddress(RH_BROADCAST_ADDRESS),
-    _txHeaderTo(RH_BROADCAST_ADDRESS),
-    _txHeaderFrom(RH_BROADCAST_ADDRESS),
-    _txHeaderId(0),
-    _txHeaderFlags(0),
-    _rxBad(0),
-    _rxGood(0),
-    _txGood(0),
-    _cad_timeout(0)
-{
-}
+    : _mode(RHModeInitialising)
+    , _thisAddress(RH_BROADCAST_ADDRESS)
+    , _txHeaderTo(RH_BROADCAST_ADDRESS)
+    , _txHeaderFrom(RH_BROADCAST_ADDRESS)
+    , _txHeaderId(0)
+#ifndef RH_NO_FRAGMENT_FIELD
+    , _txHeaderFragment(0)
+#endif
+    , _txHeaderFlags(0)
+    , _rxBad(0)
+    , _rxGood(0)
+    , _txGood(0)
+    , _cad_timeout(0)
+{}
 
 bool RHGenericDriver::init()
 {
@@ -116,12 +117,19 @@ void RHGenericDriver::setHeaderFrom(rh_address_t from)
     _txHeaderFrom = from;
 }
 
-void RHGenericDriver::setHeaderId(uint8_t id)
+void RHGenericDriver::setHeaderId(rh_id_t id)
 {
     _txHeaderId = id;
 }
 
-void RHGenericDriver::setHeaderFlags(uint8_t set, uint8_t clear)
+#ifndef RH_NO_FRAGMENT_FIELD
+void RHGenericDriver::setHeaderFragment(rh_fragment_t fragment)
+{
+    _txHeaderFragment = fragment;
+}
+#endif
+
+void RHGenericDriver::setHeaderFlags(rh_flags_t set, rh_flags_t clear)
 {
     _txHeaderFlags &= ~clear;
     _txHeaderFlags |= set;
@@ -137,12 +145,19 @@ rh_address_t RHGenericDriver::headerFrom()
     return _rxHeaderFrom;
 }
 
-uint8_t RHGenericDriver::headerId()
+rh_id_t RHGenericDriver::headerId()
 {
     return _rxHeaderId;
 }
 
-uint8_t RHGenericDriver::headerFlags()
+#ifndef RH_NO_FRAGMENT_FIELD
+rh_fragment_t RHGenericDriver::headerFragment()
+{
+    return _rxHeaderFragment;
+}
+#endif
+
+rh_flags_t RHGenericDriver::headerFlags()
 {
     return _rxHeaderFlags;
 }

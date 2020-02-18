@@ -1014,6 +1014,12 @@ typedef uint8_t  rh_id_t;
 #define RH_ID_SIZE                        1
 
 
+// The packet FRAGMENT field is disabbled when RH_NO_FRAGMENT_FIELD is defined
+typedef uint8_t  rh_fragment_t;
+// Cannot use sizeof(), as this value is used in an #if preprocessor statement below
+#define RH_FRAGMENT_SIZE                  1
+
+
 typedef uint32_t rh_address_t;
 // Cannot use sizeof(), as this value is used in an #if preprocessor statement below
 #define RH_ADDRESS_SIZE                   4
@@ -1025,28 +1031,6 @@ typedef uint8_t  rh_flags_t;
 // Cannot use sizeof(), as this value is used in an #if preprocessor statement below
 #define RH_FLAGS_SIZE                     1
 
-
-
-
-
-#if RH_ADDRESS_SIZE == 1
-
-#define ntoh_address(x) (x)
-#define hton_address(x) (x)
-
-#elif RH_ADDRESS_SIZE == 2
-
-#define ntoh_address(x) ntohs(x)
-#define hton_address(x) htons(x)
-
-#elif RH_ADDRESS_SIZE == 4
-
-#define ntoh_address(x) ntohl(x)
-#define hton_address(x) htonl(x)
-
-#else
-#error Address is an unsupported size
-#endif
 
 
 
@@ -1066,7 +1050,49 @@ typedef uint8_t  rh_flags_t;
 #define hton_id(x) htonl(x)
 
 #else
-#error Address is an unsupported size
+#error ID type is an unsupported size
+#endif
+
+
+
+#if RH_FRAGMENT_SIZE == 1
+
+#define ntoh_fragment(x) (x)
+#define hton_fragment(x) (x)
+
+#elif RH_ID_SIZE == 2
+
+#define ntoh_fragment(x) ntohs(x)
+#define hton_fragment(x) htons(x)
+
+#elif RH_ID_SIZE == 4
+
+#define ntoh_fragment(x) ntohl(x)
+#define hton_fragment(x) htonl(x)
+
+#else
+#error Fragment type is an unsupported size
+#endif
+
+
+
+#if RH_ADDRESS_SIZE == 1
+
+#define ntoh_address(x) (x)
+#define hton_address(x) (x)
+
+#elif RH_ADDRESS_SIZE == 2
+
+#define ntoh_address(x) ntohs(x)
+#define hton_address(x) htons(x)
+
+#elif RH_ADDRESS_SIZE == 4
+
+#define ntoh_address(x) ntohl(x)
+#define hton_address(x) htonl(x)
+
+#else
+#error Address type is an unsupported size
 #endif
 
 
@@ -1087,12 +1113,13 @@ typedef uint8_t  rh_flags_t;
 #define hton_flags(x) htonl(x)
 
 #else
-#error Address is an unsupported size
+#error Flags type is an unsupported size
 #endif
 
 
 
 // This is the address that indicates a broadcast
 #define RH_BROADCAST_ADDRESS              (~((rh_address_t) 0x00))
+
 
 #endif
