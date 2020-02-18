@@ -26,9 +26,8 @@ PROGMEM static const RH_RF95::ModemConfig MODEM_CONFIG_TABLE[] =
 };
 
 RH_RF95::RH_RF95(uint8_t slaveSelectPin, uint8_t interruptPin, RHGenericSPI& spi)
-    :
-    RHSPIDriver(slaveSelectPin, spi),
-    _rxBufValid(0)
+    : RHSPIDriver(slaveSelectPin, spi)
+    , _rxBufValid(0)
 {
 #ifndef RH_RF95_IRQLESS
     _interruptPin = interruptPin;
@@ -293,9 +292,9 @@ bool RH_RF95::recv(uint8_t* buf, uint8_t* len)
     {
         ATOMIC_BLOCK_START;
         // Skip the 4 headers that are at the beginning of the rxBuf
-        if (*len > _bufLen-RH_RF95_HEADER_LEN)
-            *len = _bufLen-RH_RF95_HEADER_LEN;
-        memcpy(buf, _buf+RH_RF95_HEADER_LEN, *len);
+        if (*len > _bufLen - RH_RF95_HEADER_LEN)
+            *len = _bufLen - RH_RF95_HEADER_LEN;
+        memcpy(buf, _buf + RH_RF95_HEADER_LEN, *len);
         ATOMIC_BLOCK_END;
     }
     clearRxBuf(); // This message accepted and cleared
